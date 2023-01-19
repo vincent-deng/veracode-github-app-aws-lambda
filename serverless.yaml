@@ -21,7 +21,7 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:Scan
           Resource: 
-            - arn:aws:dynamodb:ap-southeast-2:240243041622:table/veracode-github-app
+            - arn:aws:dynamodb:us-east-1:240243041622:table/veracode-github-app
 
 custom:
   defaultRegion: us-east-1

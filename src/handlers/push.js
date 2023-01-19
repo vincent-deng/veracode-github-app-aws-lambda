@@ -49,11 +49,9 @@ async function handlePush(context) {
   const data = {
     sha,
     callback_url: `${ngrok}`,
-    repository: {
-      owner: context.payload.repository.owner.login,
-      name: context.payload.repository.name,
-      full_name: context.payload.repository.full_name,
-    },
+    repository_owner: context.payload.repository.owner.login,
+    repository_name: context.payload.repository.name,
+    repository_full_name: context.payload.repository.full_name,
     config: pick(config, config_keys),
     token: token.data.token,
   }

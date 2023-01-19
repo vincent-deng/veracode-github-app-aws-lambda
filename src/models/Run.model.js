@@ -50,14 +50,14 @@ Object.defineProperties(Run.prototype, {
   },
   [DynamoDbSchema]: {
     value: {
-      runid: {
-        type: 'String',
+      run_id: {
+        type: 'Number',
         keyType: 'HASH'
       },
       sha: { type: 'String' },
       repository_owner: { type: 'String' },
       repository_name: { type: 'String' },
-      repository_fullname: { type: 'String'}
+      repository_fullname: { type: 'String' }
     },
   },
 });

@@ -1,10 +1,9 @@
 const express = require('express');
 const AWS = require('aws-sdk');
 const { Octokit } = require("@octokit/rest");
-
 const { github_host } = require('../utils/constants')
-
-// const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const mapper = require('../db/dynamo-client')
+const Run = require('../models/Run.model')
 
 const server = express();
 server.disable('x-powered-by');
@@ -14,32 +13,25 @@ server.use('/veracode-github-app', router);
 server.use(express.json());
 
 router.get('/register', async (req, res) => {
-  const { id, run_id, name, sha, enforce, enforce_admin, documentation } = req.query
+  const { id, run_id, name, sha, enforce, enforce_admin, documentation, token } = req.query
 
-  console.log(req.query);
+  const run = new Run();
+  run.run_id = run_id;
+  run.sha = sha;
+  run.repository_owner = 'test1'
+  run.repository_name = 'test2'
+  run.repository_fullname = 'test3'
 
-  // const params = {
-  //   TableName: 'veracode-github-app',
-  //   Key: {
-  //     sha: sha
-  //   }
-  // };
+  try {
+    const result = await mapper.put({ item: run });
+    console.log(result)
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({err: 'DynamoError'});
+  }
 
-  // let result;
-  // try {
-  //   result = await dynamoDb.get(params).promise();
-  // } catch (error) {
-  //   return {
-  //     statusCode: 500,
-  //     body: JSON.stringify({ message: 'Error getting item', error: error.message })
-  //   };
-  // }
+  
 
-  // if (!result.Item) {
-  //   return res.sendStatus(404);
-  // }
-
-  // console.log(result.Item);
   // const data = {
   //   owner: result.Item.repository.owner,
   //   repo: result.Item.repository.name,
