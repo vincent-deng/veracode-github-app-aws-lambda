@@ -52,9 +52,9 @@ runs:
           -d enforce=${{ inputs.enforce }} \
           -d enforce_admin=${{ inputs.enforce_admin }} \
           -d token=${{ inputs.token }} \
-          -d repository_owner=$${{ inputs.repository_owner }} \
-          -d repository_name=$${{ inputs.repository_name }} \
-          -d repository_full_name=$${{ inputs.repository_full_name }} \
+          --data-urlencode "repository_owner=${{ inputs.repository_owner }}" \
+          --data-urlencode "repository_name=${{ inputs.repository_name }}" \
+          --data-urlencode "repository_full_name=${{ inputs.repository_full_name }}" \
           --data-urlencode "name=${{ env.name || github.workflow }}" \
           --data-urlencode "documentation=${{ inputs.documentation }}"
       shell: bash
