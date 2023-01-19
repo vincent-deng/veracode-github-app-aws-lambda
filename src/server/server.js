@@ -15,6 +15,8 @@ server.use(express.json());
 router.get('/register', async (req, res) => {
   const { id, run_id, name, sha, enforce, enforce_admin, documentation, token } = req.query
 
+  console.log(req.query);
+
   const run = new Run();
   run.run_id = run_id;
   run.sha = sha;

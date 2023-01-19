@@ -14,7 +14,7 @@ inputs:
     description: 'Callback url for register call (provided by GitHub app via `github.event.client_payload.callback_url`)'
     required: true
   token:
-    description: `Token to run checks.create in the register call.  (provided by GitHub app via `github.event.client_payload.token`)`
+    description: 'Token to run checks.create in the register call.  (provided by GitHub app via `github.event.client_payload.token`)'
     required: true
   sha: 
     description: 'Sha of original commit (provided by GitHub app via `github.event.client_payload.sha`)'
