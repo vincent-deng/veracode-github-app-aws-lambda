@@ -36,9 +36,6 @@ inputs:
     description: 'Enforce [required status check](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-status-checks) for admins'
     required: false
     default: false
-  documentation: 
-    description: 'Link to documentation of this check. This is shown with the status check on the original commit. (eg `.github/workflows/compliance-info.md`)'
-    required: false
   
 runs:
   using: "composite"
@@ -46,7 +43,6 @@ runs:
     - run: |
         curl -G \
           "${{ inputs.callback_url }}" \
-          -d id=${{ inputs.id }} \
           -d run_id=${{ inputs.run_id }} \
           -d sha=${{ inputs.sha }} \
           -d enforce=${{ inputs.enforce }} \
@@ -55,6 +51,5 @@ runs:
           --data-urlencode "repository_owner=${{ inputs.repository_owner }}" \
           --data-urlencode "repository_name=${{ inputs.repository_name }}" \
           --data-urlencode "repository_full_name=${{ inputs.repository_full_name }}" \
-          --data-urlencode "name=${{ env.name || github.workflow }}" \
-          --data-urlencode "documentation=${{ inputs.documentation }}"
+          --data-urlencode "name=${{ env.name || github.workflow }}"
       shell: bash

@@ -13,16 +13,26 @@ server.use('/veracode-github-app', router);
 server.use(express.json());
 
 router.get('/register', async (req, res) => {
-  const { id, run_id, name, sha, enforce, enforce_admin, documentation, token } = req.query
+  const { 
+    run_id, 
+    name, 
+    sha, 
+    enforce, 
+    enforce_admin, 
+    token, 
+    repository_owner,
+    repository_name,
+    repository_full_name
+  } = req.query
 
   console.log(req.query);
 
   const run = new Run();
   run.run_id = run_id;
   run.sha = sha;
-  run.repository_owner = 'test1'
-  run.repository_name = 'test2'
-  run.repository_fullname = 'test3'
+  run.repository_owner = repository_owner;
+  run.repository_name = repository_name;
+  run.repository_full_name = repository_full_name
 
   try {
     const result = await mapper.put({ item: run });
