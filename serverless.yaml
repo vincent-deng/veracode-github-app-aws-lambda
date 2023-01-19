@@ -1,0 +1,45 @@
+service: veracode-github-app-aws-lambda
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: ${opt:region, self:custom.defaultRegion}
+  environment:
+    APP_ID: ${ssm:APP_ID}
+    PRIVATE_KEY: ${ssm:PRIVATE_KEY}
+    WEBHOOK_SECRET: ${ssm:WEBHOOK_SECRET}
+    NODE_ENV: production
+    # LOG_LEVEL: debug
+  iam:
+    role:
+      name: DynamodbAccess
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+            - dynamodb:Scan
+          Resource: 
+            - arn:aws:dynamodb:ap-southeast-2:240243041622:table/veracode-github-app
+
+custom:
+  defaultRegion: us-east-1
+
+functions:
+  webhooks:
+    handler: 'src/lambda/handler.webhooks'
+    memorySize: 256
+    timeout: 15
+    events:
+      - httpApi:
+          path: /api/github/webhooks
+          method: post
+  api:
+    handler: 'src/lambda/handler.api'
+    memorySize: 128
+    timeout: 5
+    events:
+      - httpApi:
+          path: /veracode-github-app/register
+          method: get
